@@ -58,12 +58,12 @@ void clock_init(void)
 
 void sleep(uint32_t ms)
 {
-    const uint32_t clk = SystemCoreClock;
-    uint32_t n = clk * ms / 1000;
-    n /= 4;
-
-    for (uint32_t i = 0; i < n; i++)
-	__asm volatile("NOP");
+    const uint64_t clk = SystemCoreClock;
+    uint64_t n = clk * ms / 1000;
+    n -= 256;
+    n /= 16;
+    for (uint64_t i = 0; i < n; i++)
+	__asm volatile("SEV");
 }
 
 int main(void)

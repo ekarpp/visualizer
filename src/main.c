@@ -8,6 +8,7 @@
 void init(void)
 {
     clock_init();
+    usart_init();
 
     GPIOC->CRH      &=  ~(GPIO_CRH_MODE13 | GPIO_CRH_CNF13);    // reset PC13
     GPIOC->CRH      |= (GPIO_CRH_MODE13_1 | GPIO_CRH_MODE13_0); // config PC13
@@ -16,7 +17,6 @@ void init(void)
     i2c_init();
     ssd1306_init();
     adc_init();
-    usart_init();
 }
 
 void clock_init(void)

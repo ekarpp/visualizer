@@ -4,8 +4,7 @@
 #include "main.h"
 
 #define I2Ci I2C1
-//#define I2C_SPEED 1000000
-#define I2C_SPEED 100000
+#define I2C_SPEED 1000000
 
 void i2c_init(void)
 {
@@ -16,9 +15,10 @@ void i2c_init(void)
     SET_BIT(I2Ci->CR1, I2C_CR1_SWRST);
     CLEAR_BIT(I2Ci->CR1, I2C_CR1_SWRST);
 
-    uint32_t PCLK1 = SystemCoreClock >> 8;
-    //>> MAX(0, (READ_BIT(RCC->CFGR, RCC_CFGR_PPRE1) >> RCC_CFGR_PPRE1_Pos) - 3);
-    MODIFY_REG(I2Ci->CR2, I2C_CR2_FREQ, PCLK1 << I2C_CR2_FREQ_Pos);
+    uint32_t PPRE1 = APBPrescTable[READ_BIT(RCC->CFGR, RCC_CFGR_PPRE1) >> RCC_CFGR_PPRE1_Pos];
+    uint32_t PCLK1 = SystemCoreClock >> PPRE1;
+    // FREQ = 3 ?
+    MODIFY_REG(I2Ci->CR2, I2C_CR2_FREQ, (PCLK1 / 10000000) << I2C_CR2_FREQ_Pos);
 
     uint32_t CCR = (PCLK1 - 1) / (I2C_SPEED * (9 + 16)) + 1;
     CCR <<= I2C_CCR_CCR_Pos;

@@ -15,12 +15,12 @@ def conv_32b(x):
         return "0x%08X" % (v & msk)
 
 def mk_string(a):
-    string = ""
+    string = " "*3
     for i in range(len(a) - 1):
-        string += "%3s, " % a[i]
+        string += " %3s," % a[i]
         if i%4 == 3:
-            string += "\n    "
-    return "%s%3s" % (string, a[i+1])
+            string += "\n   "
+    return "%s %3s" % (string, a[i+1])
 
 N = (1 << int(argv[1]))
 
@@ -32,7 +32,7 @@ template="""\
 #define TABLES_H
 
 const int32_t sin_table[3*SAMPLES/4] = {
-    %s
+%s
 };
 #endif
 """

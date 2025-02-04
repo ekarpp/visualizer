@@ -37,7 +37,7 @@ all: clean build flash
 
 build: $(NAME).bin
 
-src/tables.h:
+src/tables.h: table_gen.py
 	./table_gen.py $(SAMPLES_LG)
 
 obj/%.o: src/%.c

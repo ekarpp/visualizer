@@ -24,11 +24,14 @@ void clock_init(void)
     // latency 2, when 48MHz < sysclock < 72 MHz
     MODIFY_REG(FLASH->ACR, FLASH_ACR_LATENCY, FLASH_ACR_LATENCY_2);
 
-    // I2C clock, 60 MHz / 2 = 30 MHz < 36 MHz
+    // APB1 clock (I2C), 60 MHz / 2 = 30 MHz < 36 MHz
     MODIFY_REG(RCC->CFGR, RCC_CFGR_PPRE1, RCC_CFGR_PPRE1_DIV2);
 
-    // ADC clock, 60 MHz / 8 = 7.5 MHz < 14 MHz
-    MODIFY_REG(RCC->CFGR, RCC_CFGR_PPRE2, RCC_CFGR_PPRE2_DIV8);
+    // APB2 clock (ADC/USART), 60 MHz / 2 = 30 MHz
+    MODIFY_REG(RCC->CFGR, RCC_CFGR_PPRE2, RCC_CFGR_PPRE2_DIV2);
+
+    // ADC clock, 30 MHz / 6 = 5 MHz
+    MODIFY_REG(RCC->CFGR, RCC_CFGR_ADCPRE, RCC_CFGR_ADCPRE_DIV6);
 
     // use HSI
     CLEAR_BIT(RCC->CFGR, RCC_CFGR_PLLSRC);

@@ -13,8 +13,9 @@ void usart_init(void)
 
     SET_BIT(USARTi->CR1, USART_CR1_UE);
 
-    // PCLK2 = 7.5 MHz
-    uint32_t PCLK2 = 7500000;
+    uint32_t PPRE2 = APBPrescTable[READ_BIT(RCC->CFGR, RCC_CFGR_PPRE2) >> RCC_CFGR_PPRE2_Pos];
+    uint32_t PCLK2 = SystemCoreClock >> PPRE2;
+
     WRITE_REG(USARTi->BRR, PCLK2 / USART_SPEED);
     SET_BIT(USARTi->CR1, USART_CR1_TE);
     SET_BIT(USARTi->CR1, USART_CR1_RE);

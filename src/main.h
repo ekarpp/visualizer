@@ -26,7 +26,7 @@ void adc_sample(complex_t *data);
 /* fft.c */
 void bit_reversal(complex_t *data);
 void fft(complex_t *data);
-void scale(complex_t *data, uint16_t *frame_buffer);
+void scale(complex_t *data, int16_t *frame_buffer);
 int32_t scaled_mul(int32_t a, int32_t b);
 
 /* i2c.c */
@@ -38,7 +38,7 @@ void i2c_stop(void);
 /* ssd1306.c */
 void ssd1306_send_cmd(uint8_t byte);
 void ssd1306_init(void);
-void ssd1306_update_frame(uint16_t *data);
+void ssd1306_update_frame(int16_t *frame_buffer);
 
 /* usart.c */
 void usart_init(void);

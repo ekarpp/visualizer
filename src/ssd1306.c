@@ -36,7 +36,7 @@ void ssd1306_init(void)
 	ssd1306_send_cmd(init_seq[i]);
 }
 
-void ssd1306_update_frame(uint16_t *data)
+void ssd1306_update_frame(int16_t *frame_buffer)
 {
     ssd1306_send_cmd(SSD1306_COL_ADDR);
     ssd1306_send_cmd(0x00);
@@ -58,7 +58,7 @@ void ssd1306_update_frame(uint16_t *data)
 	for (j = 0; j < 16; j++)
 	{
 	    if (j%8 == 0)
-		v = data[id];
+		v = frame_buffer[id];
 
 	    if (i%2 == 1 && j > 7)
 		/* empty space between each bin */

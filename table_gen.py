@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from math import sin, pi
+from math import sin, pi, sqrt, log
 from sys import argv
 
 def conv_32b(x):
@@ -27,6 +27,21 @@ N = (1 << int(argv[1]))
 sine = [sin(2*pi*x/N) for x in range(3*N//4)]
 sine = [conv_32b(x) for x in sine]
 
+#https://en.wikipedia.org/wiki/A-weighting
+def r_a(f):
+    return 12194**2*f**4/((f**2+20.6**2)*sqrt((f**2+107.7**2)*(f**2+737.9**2))*(f**2+12194**2))
+
+def a(r):
+    return 20*log(r)/log(10)+2
+
+f = 12_500
+step = f / (N / 2 - 1)
+w = [step / 2]
+for i in range(N // 2 - 2):
+    w.append(w[i] + step)
+
+w = [int(a(r_a(x))) for x in w]
+
 template="""\
 #ifndef TABLES_H
 #define TABLES_H
@@ -34,8 +49,15 @@ template="""\
 const int32_t sin_table[3*SAMPLES/4] = {
 %s
 };
+
+const int8_t weights[SAMPLES/2 - 1] = {
+%s
+};
 #endif
 """
 
 with open("src/tables.h", "w") as f:
-    f.write(template % mk_string(sine))
+    f.write(template % (
+        mk_string(sine),
+        mk_string(w)
+    ))

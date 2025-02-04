@@ -71,7 +71,7 @@ int main(void)
     init();
 
     complex_t ADC_data[SAMPLES] = {};
-    uint16_t frame_buffer[SAMPLES/2 - 1] = {0};
+    int16_t frame_buffer[SAMPLES/2 - 1] = {0};
 
     while (1)
     {
@@ -81,8 +81,9 @@ int main(void)
 	bit_reversal(ADC_data);
 	fft(ADC_data);
 	scale(ADC_data, frame_buffer);
-	ssd1306_update_frame(frame_buffer);
 	GPIOC->BSRR = GPIO_BSRR_BS13;
+
+	ssd1306_update_frame(frame_buffer);
     }
 
     return 0;

@@ -86,23 +86,28 @@ void fft(complex_t *data)
     }
 }
 
-void scale(complex_t *data, int16_t *frame_buffer)
+void scale(complex_t *data, int16_t *bins)
 {
     data++;
 
-    for (uint16_t i = 0; i < SAMPLES / 2 - 1; i++)
+    const uint8_t step = (SAMPLES >> 1) / BINS;
+
+    for (uint16_t i = 0; i < BINS; i++)
     {
-	uint64_t tmp = (uint64_t) ABS(data[i].Re) * ABS(data[i].Re);
-	tmp += (uint64_t) ABS(data[i].Im) * ABS(data[i].Im);
+	uint64_t tmp = 0;
+	for (uint16_t j = 0; j < step; j++)
+	{
+	    tmp += (uint64_t) ABS(data[i*step + j].Re) * ABS(data[i*step + j].Re);
+	    tmp += (uint64_t) ABS(data[i*step + j].Im) * ABS(data[i*step + j].Im);
+	}
+	tmp /= step;
 	uint16_t lg2 = 0;
-	while (tmp)
+	while(tmp)
 	{
 	    tmp >>= 1;
 	    lg2++;
 	}
-	frame_buffer[i] = lg2 << 2;
-	frame_buffer[i] += weights[i] - 77;
-	frame_buffer[i] = MAX(0, frame_buffer[i]);
+	bins[i] = MAX(0, (lg2 << 2) + weights[i] - 77);
     }
 }
 

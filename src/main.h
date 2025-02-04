@@ -3,6 +3,14 @@
 
 #define SAMPLES (1 << SAMPLES_LG)
 
+#define SSD1306_WIDTH 128
+#define SSD1306_HEIGHT 64
+#define SSD1306_ADDRESS 0x78
+
+#define BINS ((SSD1306_WIDTH / 2) - 1)
+
+//assert(SAMPLES >= 2*BINS);
+
 #define UNUSED(x) ((void) x)
 #define ABS(x)    (((x) < 0) ? (-(x)) : (x))
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))

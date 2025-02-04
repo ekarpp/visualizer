@@ -4,6 +4,24 @@
 #include "ssd1306.h"
 #include "main.h"
 
+#define DRAW_VAR(vv)			\
+    for (uint8_t i = 0; i < 8; i++)	\
+    {                                   \
+	if (vv >= 8)			\
+	{				\
+	    i2c_send(0xFF);		\
+	    vv -= 8;			\
+	}				\
+	else if (vv > 0)		\
+	{				\
+	    i2c_send((1 << vv) - 1);	\
+	    vv = 0;			\
+	}				\
+	else				\
+	    i2c_send(0x0);		\
+    }
+
+
 
 void ssd1306_send_cmd(uint8_t byte)
 {
@@ -36,7 +54,7 @@ void ssd1306_init(void)
 	ssd1306_send_cmd(init_seq[i]);
 }
 
-void ssd1306_update_frame(int16_t *frame_buffer)
+void ssd1306_update_frame(int16_t *bins)
 {
     ssd1306_send_cmd(SSD1306_COL_ADDR);
     ssd1306_send_cmd(0x00);
@@ -46,55 +64,23 @@ void ssd1306_update_frame(int16_t *frame_buffer)
     ssd1306_send_cmd(0x00);
     ssd1306_send_cmd(0x07);
 
-    uint16_t id = 0;
+    for (uint8_t x = 0; x < BINS; x++)
+    {
+	i2c_start(SSD1306_ADDRESS);
+	i2c_send(0x40);
+
+	int16_t h = bins[x];
+	DRAW_VAR(h);
+	h = 0;
+	DRAW_VAR(h);
+
+	i2c_stop();
+    }
+
+    i2c_start(SSD1306_ADDRESS);
+    i2c_send(0x40);
     int16_t v = 0;
-    uint8_t i,j;
-
-    for (i = 0; i < 62; i++)
-    {
-	i2c_start(SSD1306_ADDRESS);
-	i2c_send(0x40);
-
-	for (j = 0; j < 16; j++)
-	{
-	    if (j%8 == 0)
-		v = frame_buffer[id];
-
-	    if (i%2 == 1 && j > 7)
-		/* empty space between each bin */
-		i2c_send(0x00);
-	    else
-	    {
-		if (v >= 8)
-		{
-		    i2c_send(0xFF);
-		    v -= 8;
-		}
-		else
-		{
-		    i2c_send((1 << v) - 1);
-		    v = 0;
-		    while (j%8 != 7)
-		    {
-			i2c_send(0x00);
-			j++;
-		    }
-		}
-	    }
-	}
-	/* next bin every 4 width */
-	if (i%2 == 1)
-	    id += 1;
-	i2c_stop();
-    }
-
-    for (i = 0; i < 2; i++)
-    {
-	i2c_start(SSD1306_ADDRESS);
-	i2c_send(0x40);
-	for (j = 0; j < 16; j++)
-	    i2c_send(0x00);
-	i2c_stop();
-    }
-
+    DRAW_VAR(v);
+    DRAW_VAR(v);
+    i2c_stop();
 }

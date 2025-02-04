@@ -1,4 +1,5 @@
 NAME = visualizer
+# SAMPLES_LG >= 7
 SAMPLES_LG = 8
 
 CPU = cortex-m3

@@ -10,11 +10,11 @@ void adc_init(void)
     CLEAR_BIT(ADCi->CR2, ADC_CR2_CONT);
 
     SET_BIT(ADCi->CR2, ADC_CR2_ADON);
-    sleep(10);
+    sleep(1);
     // wait two ADC cycles
     // wait t_stab before exit
     SET_BIT(ADCi->CR2, ADC_CR2_CAL);
-    sleep(10);
+    sleep(1);
 }
 
 
@@ -29,6 +29,8 @@ void adc_sample(complex_t *data)
 	data[i].Re = READ_BIT(ADCi->DR, ADC_DR_DATA);
 	acc += data[i].Re;
 	data[i].Im = 0;
+	for (uint16_t i = 0; i < 128; i++)
+	    __asm volatile("SEV");
     }
     acc /= SAMPLES;
     for (uint16_t i = 0; i < SAMPLES; i++)

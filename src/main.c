@@ -27,11 +27,11 @@ void clock_init(void)
     // APB1 clock (I2C), 60 MHz / 2 = 30 MHz < 36 MHz
     MODIFY_REG(RCC->CFGR, RCC_CFGR_PPRE1, RCC_CFGR_PPRE1_DIV2);
 
-    // APB2 clock (ADC/USART), 60 MHz / 2 = 30 MHz
-    MODIFY_REG(RCC->CFGR, RCC_CFGR_PPRE2, RCC_CFGR_PPRE2_DIV2);
+    // APB2 clock (ADC/USART), 60 MHz / 8 = 7.5 MHz
+    MODIFY_REG(RCC->CFGR, RCC_CFGR_PPRE2, RCC_CFGR_PPRE2_DIV16);
 
-    // ADC clock, 30 MHz / 6 = 5 MHz
-    MODIFY_REG(RCC->CFGR, RCC_CFGR_ADCPRE, RCC_CFGR_ADCPRE_DIV6);
+    // ADC clock, 7.5 MHz / 8 = 0.9375 MHz
+    MODIFY_REG(RCC->CFGR, RCC_CFGR_ADCPRE, RCC_CFGR_ADCPRE_DIV8);
 
     // use HSI
     CLEAR_BIT(RCC->CFGR, RCC_CFGR_PLLSRC);
@@ -74,7 +74,7 @@ int main(void)
     init();
 
     complex_t ADC_data[SAMPLES] = {};
-    int16_t frame_buffer[SAMPLES/2 - 1] = {0};
+    int16_t bins[BINS] = {};
 
     while (1)
     {
@@ -83,10 +83,10 @@ int main(void)
 	GPIOC->BSRR = GPIO_BSRR_BR13;
 	bit_reversal(ADC_data);
 	fft(ADC_data);
-	scale(ADC_data, frame_buffer);
+	scale(ADC_data, bins);
 	GPIOC->BSRR = GPIO_BSRR_BS13;
 
-	ssd1306_update_frame(frame_buffer);
+	ssd1306_update_frame(bins);
     }
 
     return 0;

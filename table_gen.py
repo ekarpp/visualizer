@@ -34,10 +34,11 @@ def r_a(f):
 def a(r):
     return 20*log(r)/log(10)+2
 
-f = 12_500
-step = f / (N / 2 - 1)
+f = 8_000
+BINS = 128 // 2 - 1
+step = f / BINS
 w = [step / 2]
-for i in range(N // 2 - 2):
+for i in range(BINS - 1):
     w.append(w[i] + step)
 
 w = [int(a(r_a(x))) for x in w]
@@ -50,7 +51,7 @@ const int32_t sin_table[3*SAMPLES/4] = {
 %s
 };
 
-const int8_t weights[SAMPLES/2 - 1] = {
+const int8_t weights[BINS] = {
 %s
 };
 #endif

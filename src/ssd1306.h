@@ -1,7 +1,6 @@
 #ifndef SSD1306_H
 #define SSD1306_H
 
-#define SSD1306_ADDRESS 0x78
 #define SSD1306_DISP_ON 0xAF
 #define SSD1306_DISP_OFF 0xAE
 #define SSD1306_ENTIRE_DISP_ON 0xA5

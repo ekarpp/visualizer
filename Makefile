@@ -4,10 +4,10 @@ SAMPLES_LG = 8
 
 CPU = cortex-m3
 MCU = STM32F103xB
-LINKER = CMSIS/linker/STM32F103XB_FLASH.ld
+LINKER = cmsis-device-f1/Source/Templates/gcc/linker/STM32F103XB_FLASH.ld
 
-INCLUDE  = -ICMSIS/Include
-INCLUDE += -ICMSIS/Device
+INCLUDE  = -Icmsis-device-f1/Include
+INCLUDE += -ICMSIS_6/CMSIS/Core/Include
 
 CFLAGS  = -std=c99 -Wall -g
 CFLAGS += -mcpu=$(CPU) -D$(MCU)
@@ -21,8 +21,8 @@ LDFLAGS  = -T$(LINKER) -lc
 LDFLAGS += -mthumb -mcpu=$(CPU)
 LDFLAGS += --specs=nosys.specs --specs=nano.specs
 
-SYS  = CMSIS/src/system_stm32f1xx.c
-STARTUP = CMSIS/src/startup_stm32f103xb.s
+SYS  = cmsis-device-f1/Source/Templates/system_stm32f1xx.c
+STARTUP = cmsis-device-f1/Source/Templates/gcc/startup_stm32f103xb.s
 
 SRC = $(wildcard src/*.c) $(SYS)
 ASM  = $(STARTUP)
@@ -45,11 +45,11 @@ obj/%.o: src/%.c
 	@mkdir -p obj
 	$(CC) $(CFLAGS) -c $< -o $@
 
-obj/%.o: CMSIS/src/%.c
+obj/%.o: cmsis-device-f1/Source/Templates/%.c
 	@mkdir -p obj
 	$(CC) $(CFLAGS) -c $< -o $@
 
-obj/%.o: CMSIS/src/%.s
+obj/%.o: cmsis-device-f1/Source/Templates/gcc/%.s
 	@mkdir -p obj
 	$(AS) $(ASFLAGS) $< -o $@
 

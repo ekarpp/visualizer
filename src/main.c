@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <stdio.h>
 #include "stm32f1xx.h"
 
 #include "main.h"
@@ -9,10 +8,7 @@ void init(void)
 {
     clock_init();
     usart_init();
-
-    GPIOC->CRH      &=  ~(GPIO_CRH_MODE13 | GPIO_CRH_CNF13);    // reset PC13
-    GPIOC->CRH      |= (GPIO_CRH_MODE13_1 | GPIO_CRH_MODE13_0); // config PC13
-    GPIOC->BSRR = GPIO_BSRR_BS13;
+    led_init();
 
     i2c_init();
     ssd1306_init();
@@ -80,11 +76,11 @@ int main(void)
     {
 	adc_sample(ADC_data);
 
-	GPIOC->BSRR = GPIO_BSRR_BR13;
+	led_on();
 	bit_reversal(ADC_data);
 	fft(ADC_data);
 	scale(ADC_data, bins);
-	GPIOC->BSRR = GPIO_BSRR_BS13;
+	led_off();
 
 	ssd1306_update_frame(bins);
     }

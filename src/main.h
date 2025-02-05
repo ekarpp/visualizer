@@ -43,6 +43,11 @@ void i2c_start(uint8_t i2c_address);
 void i2c_send(uint8_t byte);
 void i2c_stop(void);
 
+/* led.c */
+void led_init(void);
+void led_on(void);
+void led_off(void);
+
 /* ssd1306.c */
 void ssd1306_send_cmd(uint8_t byte);
 void ssd1306_init(void);

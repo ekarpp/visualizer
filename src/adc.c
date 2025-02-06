@@ -23,16 +23,16 @@ void adc_sample(complex_t *data)
     int32_t acc = 0;
     for (uint16_t i = 0; i < SAMPLES; i++)
     {
-	SET_BIT(ADCi->CR2, ADC_CR2_ADON);
-	while (READ_BIT(ADCi->SR, ADC_SR_EOC) != ADC_SR_EOC);
+        SET_BIT(ADCi->CR2, ADC_CR2_ADON);
+        while (READ_BIT(ADCi->SR, ADC_SR_EOC) != ADC_SR_EOC);
 
-	data[i].Re = READ_BIT(ADCi->DR, ADC_DR_DATA);
-	acc += data[i].Re;
-	data[i].Im = 0;
-	for (uint16_t i = 0; i < 128; i++)
-	    __asm volatile("SEV");
+        data[i].Re = READ_BIT(ADCi->DR, ADC_DR_DATA);
+        acc += data[i].Re;
+        data[i].Im = 0;
+        for (uint16_t i = 0; i < 128; i++)
+            __asm volatile("SEV");
     }
     acc /= SAMPLES;
     for (uint16_t i = 0; i < SAMPLES; i++)
-	data[i].Re -= acc;
+        data[i].Re -= acc;
 }

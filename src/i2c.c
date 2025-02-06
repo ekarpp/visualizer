@@ -53,8 +53,8 @@ void i2c_send(uint8_t byte)
 {
     while (READ_BIT(I2Ci->SR1, I2C_SR1_TXE) != I2C_SR1_TXE)
     {
-	if (READ_BIT(I2Ci->SR1, I2C_SR1_AF) == I2C_SR1_AF)
-	    continue;
+        if (READ_BIT(I2Ci->SR1, I2C_SR1_AF) == I2C_SR1_AF)
+            continue;
     }
 
     WRITE_REG(I2Ci->DR, byte);

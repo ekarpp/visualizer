@@ -62,7 +62,7 @@ void sleep(uint32_t ms)
     n -= 256;
     n /= 16;
     for (uint64_t i = 0; i < n; i++)
-	__asm volatile("SEV");
+        __asm volatile("SEV");
 }
 
 int main(void)
@@ -74,15 +74,15 @@ int main(void)
 
     while (1)
     {
-	adc_sample(ADC_data);
+        adc_sample(ADC_data);
 
-	led_on();
-	bit_reversal(ADC_data);
-	fft(ADC_data);
-	scale(ADC_data, bins);
-	led_off();
+        led_on();
+        bit_reversal(ADC_data);
+        fft(ADC_data);
+        scale(ADC_data, bins);
+        led_off();
 
-	ssd1306_update_frame(bins);
+        ssd1306_update_frame(bins);
     }
 
     return 0;

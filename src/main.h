@@ -31,6 +31,12 @@ int main(void);
 void adc_init(void);
 void adc_sample(complex_t *data);
 
+/* cstd.c */
+int32_t _write(int32_t handle, char *data, int32_t len);
+int32_t _read(int32_t handle, char *data, int32_t len);
+int32_t _close(int32_t handle);
+int32_t _lseek(int32_t handle, int32_t offset, int32_t whence);
+
 /* fft.c */
 void bit_reversal(complex_t *data);
 void fft(complex_t *data);

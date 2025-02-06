@@ -36,18 +36,3 @@ uint8_t usart_read(void)
     while(READ_BIT(USARTi->SR, USART_SR_RXNE) != USART_SR_RXNE);
     return READ_REG(USARTi->DR);
 }
-
-int32_t _write(int32_t handle, char *data, int32_t len)
-{
-    int32_t count = 0;
-    for (uint32_t i = 0; i < len; i++)
-        count += usart_send(data[i]);
-    return count;
-}
-
-int32_t _read(int32_t handle, char *data, int32_t len)
-{
-    for (uint32_t i = 0; i < len; i++)
-        data[i] = usart_read();
-    return len;
-}

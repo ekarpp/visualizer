@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20.0)
-set(BOARD stm32_bp)
+set(BOARD stm32_min_dev)
 set(SAMPLES_LG 8)
 
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})

@@ -1,7 +1,5 @@
-#ifndef __TABLES_H
-#define __TABLES_H
-
-#include "ssd1306.h"
+#ifndef TABLES_H
+#define TABLES_H
 
 const int32_t sin_table[3*SAMPLES/4] = {
     0x00000000, 0x0647D97C, 0x0C8BD35E, 0x12C8106E,

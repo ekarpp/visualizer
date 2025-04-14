@@ -2,6 +2,7 @@
 
 #include "adc.h"
 #include "fft.h"
+#include "ssd1306.h"
 #include "tables.h"
 
 #define ABS(x)    (((x) < 0) ? (-(x)) : (x))

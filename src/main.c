@@ -5,8 +5,7 @@
 #include <stdio.h>
 #include <zephyr/kernel.h>
 
-#define HEAP_SIZE 8192
-
+#define HEAP_SIZE (SAMPLES * sizeof(complex_t) * 8)
 K_HEAP_DEFINE(fft_heap, HEAP_SIZE);
 
 int main(void)

@@ -4,7 +4,6 @@
 #include "fft.h"
 #include <stdint.h>
 
-#define SAMPLES_LG 7
 #define SAMPLES (1 << SAMPLES_LG)
 
 int adc_init(void);

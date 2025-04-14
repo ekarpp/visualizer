@@ -4,8 +4,8 @@
 #include <stdint.h>
 
 typedef struct {
-    int32_t Re;
-    int32_t Im;
+    int16_t Re;
+    int16_t Im;
 } complex_t;
 
 
@@ -15,6 +15,6 @@ void preprocess(complex_t *data);
 void bit_reversal(complex_t *data);
 void fft(complex_t *data);
 void scale(complex_t *data, int8_t *frame_buffer);
-int32_t scaled_mul(int32_t a, int32_t b);
+int16_t scaled_mul(int16_t a, int16_t b);
 
 #endif

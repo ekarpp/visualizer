@@ -119,11 +119,11 @@ void scale(complex_t *data, int8_t *bins)
 
     for (uint16_t i = 0; i < BINS; i++)
     {
-        uint64_t tmp = 0;
+        uint32_t tmp = 0;
         for (uint16_t j = 0; j < step; j++)
         {
-            tmp += (uint64_t) ABS(data[i*step + j].Re) * ABS(data[i*step + j].Re);
-            tmp += (uint64_t) ABS(data[i*step + j].Im) * ABS(data[i*step + j].Im);
+            tmp += (uint32_t) ABS(data[i*step + j].Re) * ABS(data[i*step + j].Re);
+            tmp += (uint32_t) ABS(data[i*step + j].Im) * ABS(data[i*step + j].Im);
         }
         tmp /= step;
         uint16_t lg2 = 0;
@@ -136,7 +136,7 @@ void scale(complex_t *data, int8_t *bins)
     }
 }
 
-int32_t scaled_mul(int32_t a, int32_t b)
+int16_t scaled_mul(int16_t a, int16_t b)
 {
     int8_t negs = 0;
     if (a < 0)
@@ -145,8 +145,8 @@ int32_t scaled_mul(int32_t a, int32_t b)
     if (b < 0)
         negs++;
 
-    uint64_t tmp = ABS(a);
+    uint32_t tmp = ABS(a);
     tmp *= ABS(b);
-    tmp >>= 31;
-    return (negs == 1) ? -(int32_t) tmp : (int32_t) tmp;
+    tmp >>= 15;
+    return (negs == 1) ? -(int16_t) tmp : (int16_t) tmp;
 }

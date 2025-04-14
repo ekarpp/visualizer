@@ -14,6 +14,18 @@ def conv_32b(x):
         v += 1
         return "0x%08X" % (v & msk)
 
+def conv_16b(x):
+    b16 = 0x7FFF
+    if x >= 0:
+        return "0x%04X" % int(x * b16 + 0.5)
+    else:
+        msk = (b16 << 1) | 1
+        v = abs(x)
+        v = int(v * b16 + 0.5)
+        v ^= msk
+        v += 1
+        return "0x%04X" % (v & msk)
+
 def mk_string(a):
     string = " "*3
     for i in range(len(a) - 1):
@@ -25,7 +37,7 @@ def mk_string(a):
 N = (1 << int(argv[1]))
 
 sine = [sin(2*pi*x/N) for x in range(N//2)]
-sine = [conv_32b(x) for x in sine]
+sine = [conv_16b(x) for x in sine]
 
 #https://en.wikipedia.org/wiki/A-weighting
 def r_a(f):
@@ -47,7 +59,7 @@ template="""\
 #ifndef TABLES_H
 #define TABLES_H
 
-const int32_t sin_table[SAMPLES/2] = {
+const int16_t sin_table[SAMPLES/2] = {
 %s
 };
 

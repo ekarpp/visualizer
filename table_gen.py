@@ -24,7 +24,7 @@ def mk_string(a):
 
 N = (1 << int(argv[1]))
 
-sine = [sin(2*pi*x/N) for x in range(3*N//4)]
+sine = [sin(2*pi*x/N) for x in range(N//2)]
 sine = [conv_32b(x) for x in sine]
 
 #https://en.wikipedia.org/wiki/A-weighting
@@ -47,7 +47,7 @@ template="""\
 #ifndef TABLES_H
 #define TABLES_H
 
-const int32_t sin_table[3*SAMPLES/4] = {
+const int32_t sin_table[SAMPLES/2] = {
 %s
 };
 

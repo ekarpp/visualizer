@@ -44,7 +44,9 @@ void fft(complex_t *data)
             complex_t twiddle;
             if (i != 0 && i != n / 2)
             {
-                twiddle.Re = sin_table[i * sets + SAMPLES / 4];
+                twiddle.Re = sin_table[(i*sets + SAMPLES/4) % (SAMPLES/2)];
+                if (i*sets >= SAMPLES/4)
+                    twiddle.Re = -twiddle.Re;
                 twiddle.Im = -sin_table[i * sets];
             }
 

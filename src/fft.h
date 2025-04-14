@@ -11,6 +11,7 @@ typedef struct {
 
 /* fft.c */
 void fft_compute(complex_t *data, int8_t *bins);
+void preprocess(complex_t *data);
 void bit_reversal(complex_t *data);
 void fft(complex_t *data);
 void scale(complex_t *data, int8_t *frame_buffer);

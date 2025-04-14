@@ -10,9 +10,20 @@
 
 void fft_compute(complex_t *data, int8_t *bins)
 {
+    preprocess(data);
     bit_reversal(data);
     fft(data);
     scale(data, bins);
+}
+
+void preprocess(complex_t *data)
+{
+    int32_t mean = 0;
+    for (uint16_t i = 0; i < SAMPLES; i++)
+        mean += data[i].Re;
+    mean /= SAMPLES;
+    for (uint16_t i = 0; i < SAMPLES; i++)
+        data[i].Re -= mean;
 }
 
 void bit_reversal(complex_t *data)

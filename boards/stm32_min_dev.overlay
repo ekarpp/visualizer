@@ -23,6 +23,7 @@
 	adc-prescaler = <8>;
 };
 
+// SSD1306 in at I2C1
 &i2c1 {
 	pinctrl-0 = < &i2c1_scl_pb6 &i2c1_sda_pb7 >;
 	status = "okay";
@@ -30,6 +31,7 @@
 	clock-frequency = <I2C_BITRATE_FAST>;
 };
 
+// Signal in at A0
 &adc1 {
     #io-channel-cels = <1>;
 	#address-cells = <1>;

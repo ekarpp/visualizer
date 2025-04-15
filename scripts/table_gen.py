@@ -43,8 +43,8 @@ sine = [conv_16b(x) for x in sine]
 def r_a(f):
     return 12194**2*f**4/((f**2+20.6**2)*sqrt((f**2+107.7**2)*(f**2+737.9**2))*(f**2+12194**2))
 
-def a(r):
-    return 20*log(r)/log(10)+2
+def a(f):
+    return 20 * log(r_a(f))/log(2) - 20 * log(r_a(1000))/log(2)
 
 f = 8_000
 BINS = 128 // 2 - 1
@@ -53,7 +53,7 @@ w = [step / 2]
 for i in range(BINS - 1):
     w.append(w[i] + step)
 
-w = [int(a(r_a(x))) for x in w]
+w = [int(a(f)) for f in w]
 
 template="""\
 #ifndef TABLES_H
@@ -63,7 +63,7 @@ const int16_t sin_table[SAMPLES/2] = {
 %s
 };
 
-const int8_t weights[BINS] = {
+const int16_t weights[BINS] = {
 %s
 };
 #endif

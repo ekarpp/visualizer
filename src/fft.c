@@ -125,14 +125,15 @@ void scale(complex_t *data, int8_t *bins)
             tmp += (uint32_t) ABS(data[i*step + j].Re) * ABS(data[i*step + j].Re);
             tmp += (uint32_t) ABS(data[i*step + j].Im) * ABS(data[i*step + j].Im);
         }
+        tmp *= 4;
         tmp /= step;
-        uint16_t lg2 = 0;
+        int16_t lg2 = 0;
         while(tmp)
         {
             tmp >>= 1;
             lg2++;
         }
-        bins[i] = MAX(0, (lg2 << 2) + weights[i] - 77);
+        bins[i] = MAX(0, 8 * lg2 + weights[i] - 200);
     }
 }
 

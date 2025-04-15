@@ -12,9 +12,22 @@ static const struct device *adc_dev = DEVICE_DT_GET(ADC_NODE);
 static const struct adc_channel_cfg adc_chann =
     ADC_CHANNEL_CFG_DT(DT_CHILD(ADC_NODE, channel_0));
 
+enum adc_action adc_sleep(
+    const struct device *dev,
+    const struct adc_sequence *seq,
+    uint16_t idx
+)
+{
+    for (uint16_t i = 0; i < 128; i++)
+        __asm volatile("SEV");
+    return ADC_ACTION_CONTINUE;
+}
+
+
 const struct adc_sequence_options options = {
     .extra_samplings = SAMPLES - 1,
     .interval_us = 0,
+    .callback = adc_sleep,
 };
 
 uint16_t buf[SAMPLES];

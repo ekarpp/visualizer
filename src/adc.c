@@ -18,11 +18,10 @@ enum adc_action adc_sleep(
     uint16_t idx
 )
 {
-    for (uint16_t i = 0; i < 128; i++)
+    for (uint16_t i = 0; i < 153; i++)
         __asm volatile("SEV");
     return ADC_ACTION_CONTINUE;
 }
-
 
 const struct adc_sequence_options options = {
     .extra_samplings = SAMPLES - 1,

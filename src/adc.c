@@ -55,9 +55,10 @@ void adc_mv_conv(int32_t *v)
 
 int adc_sample(complex_t *data)
 {
-    if (adc_read(adc_dev, &adc_seq) < 0)
+    int err = adc_read(adc_dev, &adc_seq);
+    if (err < 0)
     {
-        printf("adc error\n");
+        printf("adc error (%d)\n", err);
         return -1;
     }
 

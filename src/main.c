@@ -11,10 +11,7 @@ K_HEAP_DEFINE(fft_heap, HEAP_SIZE);
 int main(void)
 {
     if (adc_init() < 0)
-    {
-        printf("error initializing ADB\n");
         return -1;
-    }
 
     printf("adc init done\n");
 
@@ -24,10 +21,8 @@ int main(void)
         bins[i] = 0x7F;
 
     if (ssd1306_init() < 0)
-    {
-        printf("error initializing SSD1306\n");
         return -1;
-    }
+
     printf("ssd1306 init done\n");
 
     ssd1306_update_frame(bins);
@@ -35,10 +30,8 @@ int main(void)
     printf("start sampling\n");
     while (1) {
         if (adc_sample(data) < 0)
-        {
-            printf("adc error\n");
             return -1;
-        }
+
         fft_compute(data, bins);
         ssd1306_update_frame(bins);
     }

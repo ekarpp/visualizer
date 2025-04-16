@@ -21,7 +21,7 @@ int main(void)
         bins[i] = 0x7F;
 
     if (ssd1306_init() < 0)
-        return -1;
+        goto error;
 
     printf("ssd1306 init done\n");
 
@@ -30,10 +30,15 @@ int main(void)
     printf("start sampling\n");
     while (1) {
         if (adc_sample(data) < 0)
-            return -1;
-
+            goto error;
         fft_compute(data, bins);
         ssd1306_update_frame(bins);
     }
+
+
 	return 0;
+
+error:
+    k_heap_free(&fft_heap, data);
+    return -1;
 }

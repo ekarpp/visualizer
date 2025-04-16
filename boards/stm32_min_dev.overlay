@@ -9,8 +9,8 @@
 };
 
 &pll {
-	mul = <15>;
-	clocks = <&clk_hsi>;
+	mul = <9>;
+	clocks = <&clk_hse>;
 	status = "okay";
 };
 
